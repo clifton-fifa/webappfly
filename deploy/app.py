@@ -11,7 +11,7 @@ minimal_model = joblib.load(r'C:\Users\Admin\Downloads\web7_9\deploy\model\minim
 full_model = joblib.load(r'C:\Users\Admin\Downloads\web7_9\deploy\model\full_model.pkl')  # Full mode model
 
 # ฟีเจอร์ที่ใช้ในแต่ละโหมด
-minimal_shape_columns = ['a(1-2)', 'b(2-3)', 'e(6-7)', 'g(9-10)']
+minimal_shape_columns = ['a(1-2)', 'b(2-3)','c(3-4)','d(4-5)', 'e(6-7)', 'g(9-10)']
 categorical_columns = ['Gena color', 'Body color']
 
 full_shape_columns = ['a(1-2)', 'b(2-3)', 'c(3-4)', 'd(4-5)', 'e(6-7)', 'f(7-10)', 
@@ -86,6 +86,8 @@ def predict_species_family():
             # รับข้อมูลจากฟิลด์โหมด minimal
             measurements['a(1-2)'] = float(request.form.get('minimal_a12') or 0)
             measurements['b(2-3)'] = float(request.form.get('minimal_b23') or 0)
+            measurements['c(3-4)'] = float(request.form.get('minimal_c34') or 0)
+            measurements['d(4-5)'] = float(request.form.get('minimal_d45') or 0)
             measurements['e(6-7)'] = float(request.form.get('minimal_e67') or 0)
             measurements['g(9-10)'] = float(request.form.get('minimal_g910') or 0)
             measurements['Gena color'] = request.form.get('minimal_genaColor', '')

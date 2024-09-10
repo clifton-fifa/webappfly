@@ -15,10 +15,23 @@ def encode_colors(data):
     })
     return data
 
+# ฟังก์ชันสำหรับ rescale คอลัมน์ a(1-2), b(2-3), c(3-4), d(4-5)
+def rescale_abcd(row):
+    cols = [col for col in ['a(1-2)', 'b(2-3)', 'c(3-4)', 'd(4-5)'] if col in row.index]
+    total = sum(row[cols])
+    if total != 0:
+        factor = 5000 / total
+        for col in cols:
+            row[col] *= factor
+    return row
+
 # ฟังก์ชันการฝึกโมเดล
 def train_model():
     # อ่านข้อมูลจากไฟล์ Excel
-    df = pd.read_excel(r'C:\Users\Admin\Downloads\web7_9\deploy\model\Trained-minimal.xlsx')  # ใช้ read_excel()
+    df = pd.read_excel(r'C:\\Users\\Admin\\Downloads\\web7_9\\deploy\\model\\Trained-minimal.xlsx')  # ใช้ read_excel()
+    
+    # Rescale columns a(1-2), b(2-3), c(3-4), d(4-5)
+    df = df.apply(rescale_abcd, axis=1)
     
     df = encode_colors(df)
 
