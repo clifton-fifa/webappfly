@@ -7,18 +7,16 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 # โหลดโมเดลที่ฝึกมาแล้ว
-minimal_model = joblib.load(r'C:\Users\Admin\Downloads\web7_9\deploy\model\minimal_model.pkl')  # Minimal mode model
-full_model = joblib.load(r'C:\Users\Admin\Downloads\web7_9\deploy\model\full_model.pkl')  # Full mode model
+minimal_model = joblib.load(r'C:\Users\Admin\Downloads\webappfly\deploy\model\minimal_model.pkl')  # Minimal mode model
+full_model = joblib.load(r'C:\Users\Admin\Downloads\webappfly\deploy\model\full_model.pkl')  # Full mode model
 
 # ฟีเจอร์ที่ใช้ในแต่ละโหมด
-minimal_shape_columns = ['a(1-2)', 'b(2-3)','c(3-4)','d(4-5)', 'e(6-7)', 'g(9-10)']
+minimal_shape_columns = ['a(1-2)', 'b(2-3)', 'c(3-4)', 'd(4-5)', 'e(6-7)', 'g(9-10)']
 categorical_columns = ['Gena color', 'Body color']
 
-full_shape_columns = ['a(1-2)', 'b(2-3)', 'c(3-4)', 'd(4-5)', 'e(6-7)', 'f(7-10)', 
-                      'g(9-10)', 'h(9-15)', 'i(15-16)', 'j(14-15)', 'k(13-14)', 
-                      'l(13-17)', 'm(17-18)', 'n(1-18)', 'o(2-13)', 'p(3-12)', 
-                      'q(12-13)', 'r(5-12)', 's(11-14)', 't(8-11)', 'u(7-8)', 
-                      'v(8-9)', 'w(11-12)']
+full_shape_columns = ['a(1-2)', 'b(2-3)', 'c(3-4)', 'd(4-5)', 'e(6-7)', 'f(7-10)', 'g(9-10)', 'h(9-15)', 
+                      'i(15-16)', 'j(14-15)', 'k(13-14)', 'l(13-17)', 'm(17-18)', 'n(1-18)', 'o(2-13)', 
+                      'p(3-12)', 'q(12-13)', 'r(5-12)', 's(11-14)', 't(8-11)', 'u(7-8)', 'v(8-9)', 'w(11-12)']
 
 # ฟังก์ชันปรับขนาดฟีเจอร์ a+b+c+d = 5000
 def rescale_abcd(row):
@@ -42,7 +40,8 @@ def prepare_input_data(data, mode):
         df = pd.get_dummies(df, columns=categorical_columns, drop_first=False)
 
         # ตรวจสอบว่า categorical columns ถูกเข้ารหัสครบถ้วนหรือไม่
-        expected_columns = [f"{col}_{val}" for col in categorical_columns for val in ['orange', 'white', 'Metallic Green', 'Metallic Blue', 'Cupreous', 'Gray']]
+        expected_columns = [f"{col}_{val}" for col in categorical_columns for val in ['orange', 'white', 
+                        'Metallic Green', 'Metallic Blue', 'Cupreous', 'Gray']]
         for col in expected_columns:
             if col not in df.columns:
                 df[col] = 0  # เติมค่า 0 สำหรับคอลัมน์ที่ขาด
@@ -95,6 +94,7 @@ def predict_species_family():
 
             # ใช้โมเดล minimal สำหรับการทำนาย
             model = minimal_model
+
         elif mode == 'full':
             # รับข้อมูลจากฟิลด์โหมด full
             measurements['a(1-2)'] = float(request.form.get('full_a12') or 0)

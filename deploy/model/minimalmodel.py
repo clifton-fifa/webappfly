@@ -63,3 +63,4 @@ if __name__ == "__main__":
     model_filename = 'minimal_model.pkl'
     joblib.dump(model, model_filename)
     print(f"Model saved to {model_filename}")
+

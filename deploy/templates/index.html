@@ -28,8 +28,12 @@
         }
     
         h1.text-center.text-success {
-            font-size: 2rem; /* ปรับขนาดฟอนต์ */
+            font-size: 1.5rem; /* ปรับขนาดฟอนต์ */
             color:rgb(255, 255, 255)!important;
+            /* color: #ffffff; */
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            font-weight: bold;
             /* text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); เพิ่มเงา */
         }
     
@@ -86,7 +90,7 @@
         }
 
         .section-overlay1 {
-            background-color: rgba(180, 98, 98, 0.334);
+            background-color: rgba(178, 145, 145, 0.547);
             
         }
          .section-overlay2 {
@@ -206,10 +210,37 @@
         }
 
         .input-wrapper {
-    border: 2px solid #ddd; /* กรอบสีเทา */
-    padding: 20px;         /* ระยะห่างภายในกรอบ */
-    border-radius: 10px;   /* มุมโค้ง */
-    background-color: #e6e6e6d7; /* สีพื้นหลังเบา */
+        border: 2px solid #ddd; /* กรอบสีเทา */
+        padding: 20px;         /* ระยะห่างภายในกรอบ */
+        border-radius: 10px;   /* มุมโค้ง */
+        background-color: #e6e6e6d7; /* สีพื้นหลังเบา */
+        }
+        .poster-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* Add some space below the poster */
+}
+
+#startPredictionBtn {
+    position: absolute;
+    bottom: 35px; /* Adjust this value to move the button vertically */
+    left: 70%; /* Move the button horizontally to the right */
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    font-size: 20px;
+    z-index: 10; /* Ensure the button is on top of the image */
+}
+
+/* Media query for responsiveness */
+@media (max-width: 1000px) {
+    #startPredictionBtn {
+        bottom: 3%; /* Adjust for smaller screens */
+        left: 65%; /* Adjust the left position for smaller screens */
+        transform: translateX(-50%);
+        font-size: 18px;
+        padding: 8px 16px;
+    }
 }
 
     </style>
@@ -242,22 +273,16 @@
 
     <div class="content">
         <section class="section-overlay1">
-        <section id="home" class="section">
-            
-            <div class="container">
-                <h1 class="text-center text-success"> Fly Species Using Wing 
-                Morphometric Identifying</h1>
-                <p class="text-center">Welcome to our fly species prediction tool. Use the navigation menu to explore different sections.</p>
-                <p class="text-center"> How to Collection Data </p>
-            </div>
-            <div style="display: flex; justify-content: center;">                
-                <img src="{{ url_for('static', filename='Poster.png') }}" style="width: 1000px; height: auto;" alt="Fly Species Poster">
-            </div>
-            
-            <div class="text-center mt-3">
-                <button class="btn btn-success" id="startPredictionBtn">Start Prediction</button>
-            </div>
-        </section>
+            <section id="home" class="section">
+                <div class="container">
+                    <h1 class="text-center text-success">Fly Wing Morphometric Analysis Process</h1>
+                </div>
+                <div class="poster-container" style="position: relative; display: flex; justify-content: center;">
+                    <img src="{{ url_for('static', filename='Poster2.png') }}" style="width: 1000px; height: auto;" alt="Fly Species Poster">
+                    <button class="btn btn-success" id="startPredictionBtn">Start Prediction</button>
+                </div>
+                
+            </section>
         </section>
       
         <section class="section-overlay2">
@@ -826,20 +851,26 @@
             });
     
             // Clear all form inputs
+            // Clear all form inputs, including radio buttons
             const clearInputs = () => {
+                // Clear text inputs, selects, and radio buttons
                 document.querySelectorAll('#minimalInput input, #minimalInput select, #fullInput input, #fullInput select').forEach(el => {
-                    el.value = ''; // Clear value
+                    if (el.type === 'radio' || el.type === 'checkbox') {
+                        el.checked = false; // Uncheck radio and checkbox
+                    } else {
+                        el.value = ''; // Clear value for text inputs
+                    }
                     el.classList.remove('is-invalid'); // Remove any validation errors if present
                 });
             };
-    
+
             // Clear form inputs when clear button is clicked
             if (clearBtn) {
                 clearBtn.addEventListener('click', function() {
                     clearInputs(); // Clear inputs when clear button is clicked
                 });
             }
-    
+
             // Smooth scroll to input and reset view for new prediction
             newPredictionBtn.addEventListener('click', function() {
                 resultsSection.style.display = 'none';
