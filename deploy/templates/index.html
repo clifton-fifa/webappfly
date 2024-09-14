@@ -220,28 +220,32 @@
     display: flex;
     justify-content: center;
     margin-bottom: 20px; /* Add some space below the poster */
-}
-
-#startPredictionBtn {
-    position: absolute;
-    bottom: 35px; /* Adjust this value to move the button vertically */
-    left: 70%; /* Move the button horizontally to the right */
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    font-size: 20px;
-    z-index: 10; /* Ensure the button is on top of the image */
-}
-
-/* Media query for responsiveness */
-@media (max-width: 1000px) {
-    #startPredictionBtn {
-        bottom: 3%; /* Adjust for smaller screens */
-        left: 65%; /* Adjust the left position for smaller screens */
-        transform: translateX(-50%);
-        font-size: 18px;
-        padding: 8px 16px;
     }
-}
+
+    #startPredictionBtn {
+        position: absolute;
+        bottom: 35px; /* Adjust this value to move the button vertically */
+        left: 70%; /* Move the button horizontally to the right */
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        font-size: 20px;
+        z-index: 10; /* Ensure the button is on top of the image */
+    }
+
+    /* Media query for responsiveness */
+    @media (max-width: 1000px) {
+        #startPredictionBtn {
+            bottom: 3%; /* Adjust for smaller screens */
+            left: 65%; /* Adjust the left position for smaller screens */
+            transform: translateX(-50%);
+            font-size: 18px;
+            padding: 8px 16px;
+        }
+    }
+    .rounded-img {
+        border-radius: 15px; /* ขอบมน 15px */
+        margin: 10px; /* ระยะห่างระหว่างภาพ */
+    }
 
     </style>
 </head>
@@ -288,7 +292,14 @@
         <section class="section-overlay2">
         <section id="input" class="section section-with-padding">
             <div class="container">
-                <div class="input-wrapper">                   
+                <div class="input-wrapper">  
+
+                    <div style="text-align: center;">
+                        <img src="{{ url_for('static', filename='picture/Picture5.png') }}" alt=" " class="rounded-img" width="400" height="300">
+                        <img src="{{ url_for('static', filename='picture/Picture6.png') }}" alt=" " class="rounded-img" width="400" height="300">
+                    </div>
+                    
+                        
                 <h2>Input Data</h2>
                 <div class="mb-3">
                     <button class="btn btn-primary" id="minimalModeBtn">Input With Colors</button>
@@ -297,56 +308,6 @@
             
                 
                 <div id="minimalInput">
-
-                    <!-- <input type="hidden" name="mode" value="minimal"> ส่งค่า mode -->
-                
-                    <!-- <div class="row">
-                        <div class="col-md-2 mb-2">
-                            <label for="minimal_a12" class="form-label">a(1-2):</label>
-                            <input type="number" class="form-control" id="minimal_a12" name="minimal_a12">
-                        </div>
-                        <div class="col-md-2 mb-2">
-                            <label for="minimal_b23" class="form-label">b(2-3):</label>
-                            <input type="number" class="form-control" id="minimal_b23" name="minimal_b23">
-                        </div>
-                        <div class="col-md-2 md-2">
-                            <label for="minimal_c34" class="form-label">c(3-4)</label>
-                            <input type="number"class="form-control" id="minimal_c34" name="minimal_c34">
-                        </div>
-                        <div class="col-md-2 md-2">
-                            <label for="minimal_d45" class="form-label">d(3-4)</label>
-                            <input type="number"class="form-control" id="minimal_c34" name="minimal_c34">
-                        </div>
-                        <div class="col-md-2 mb-2">
-                            <label for="minimal_e67" class="form-label">e(6-7):</label>
-                            <input type="number" class="form-control" id="minimal_e67" name="minimal_e67">
-                        </div>
-                        <div class="col-md-2 mb-2>
-                            <label for="minimal_g910" class="form-label">g(9-10):</label>
-                            <input type="number" class="form-control" id="minimal_g910" name="minimal_g910">
-                        </div>                      -->
-                    <!-- </div> -->
-                    <!-- <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="minimal_genaColor" class="form-label">Choose Gena color:</label>
-                            <select class="form-select" id="minimal_genaColor" name="minimal_genaColor">
-                                <option value="" disabled selected>-- Select Gena color --</option>
-                                <option value="orange">Orange</option>
-                                <option value="white">White</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="minimal_bodyColor" class="form-label">Choose Body color:</label>
-                            <select class="form-select" id="minimal_bodyColor" name="minimal_bodyColor">
-                                <option value="" disabled selected>-- Select Body color --</option>
-                                <option value="metallicgreen">Metallic green</option>
-                                <option value="metallicblue">Metallic blue</option>
-                                <option value="cupreous">Cupreous</option>
-                                <option value="grey">Grey</option>
-                            </select>
-                        </div>
-                    </div> -->
-
                     <div class="row">
                         <div class="col-md-2 mb-3">
                             <label for="minimal_a12" class="form-label">a(1-2):</label>
@@ -414,8 +375,7 @@
                 </div>
                     <!-- Full mode inputs -->
                 <div id="fullInput" style="display:none;">
-                    <!-- <input type="hidden" name="mode" value="full"> ส่งค่า mode -->
-<!-- 
+
                     <div class="row">
                         <div class="col-md-2">
                             <label for="full_a12" class="form-label">a(1-2):</label>
@@ -520,8 +480,8 @@
                             <input type="number" step="any" id="full_w1112" name="full_w1112" class="form-control"/>
                         </div>
                     </div>
-                </div> -->
-                <div class="row">
+                </div> 
+                <!-- <div class="row">
                     <div class="col-md-2 mb-1">
                         <label for="full_a12" class="form-label">a(1-2):</label>
                         <input type="number" step="any" id="full_a12" name="full_a12" class="form-control" required />
@@ -548,7 +508,7 @@
                     </div>
                 </div>
                 <!-- แถวที่ 2 -->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-2 mb-1">
                         <label for="full_g910" class="form-label">g(9-10):</label>
                         <input type="number" step="any" id="full_g910" name="full_g910" class="form-control" />
@@ -575,7 +535,7 @@
                     </div>
                 </div>
                 <!-- แถวที่ 3 -->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-2 mb-1">
                         <label for="full_m1718" class="form-label">m(17-18):</label>
                         <input type="number" step="any" id="full_m1718" name="full_m1718" class="form-control" />
@@ -602,7 +562,7 @@
                     </div>
                 </div>
                 <!-- แถวที่ 4 -->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-2 mb-1">
                         <label for="full_s1114" class="form-label">s(11-14):</label>
                         <input type="number" step="any" id="full_s1114" name="full_s1114" class="form-control" />
@@ -623,8 +583,8 @@
                         <label for="full_w1112" class="form-label">w(11-12):</label>
                         <input type="number" step="any" id="full_w1112" name="full_w1112" class="form-control" />
                     </div>
-                </div>
-           
+                </div> -->
+
 
             </div>  
                 <div class="text-center mt-4">
@@ -839,21 +799,21 @@
             const inputSection = document.getElementById('input');
     
             // Smooth scroll to input on start prediction
-            startPredictionBtn.addEventListener('click', function() {
-                const inputSection = document.querySelector('#input');
-                if (inputSection) {
-                    inputSection.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                } else {
-                    console.error('#input element not found');
-                }
-            });
+            if (startPredictionBtn) {
+                startPredictionBtn.addEventListener('click', function() {
+                    const inputSection = document.querySelector('#input');
+                    if (inputSection) {
+                        inputSection.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        console.error('#input element not found');
+                    }
+                });
+            }
     
-            // Clear all form inputs
             // Clear all form inputs, including radio buttons
             const clearInputs = () => {
-                // Clear text inputs, selects, and radio buttons
                 document.querySelectorAll('#minimalInput input, #minimalInput select, #fullInput input, #fullInput select').forEach(el => {
                     if (el.type === 'radio' || el.type === 'checkbox') {
                         el.checked = false; // Uncheck radio and checkbox
@@ -863,23 +823,25 @@
                     el.classList.remove('is-invalid'); // Remove any validation errors if present
                 });
             };
-
+    
             // Clear form inputs when clear button is clicked
             if (clearBtn) {
                 clearBtn.addEventListener('click', function() {
                     clearInputs(); // Clear inputs when clear button is clicked
                 });
             }
-
+    
             // Smooth scroll to input and reset view for new prediction
-            newPredictionBtn.addEventListener('click', function() {
-                resultsSection.style.display = 'none';
-                inputSection.style.display = 'block';
-                clearInputs(); // Clear inputs when starting a new prediction
-                document.querySelector('#input').scrollIntoView({
-                    behavior: 'smooth'
+            if (newPredictionBtn) {
+                newPredictionBtn.addEventListener('click', function() {
+                    resultsSection.style.display = 'none';
+                    inputSection.style.display = 'block';
+                    clearInputs(); // Clear inputs when starting a new prediction
+                    document.querySelector('#input').scrollIntoView({
+                        behavior: 'smooth'
+                    });
                 });
-            });
+            }
     
             // Toggle between minimal and full input modes
             minimalModeBtn.addEventListener('click', function() {
@@ -912,11 +874,25 @@
                     : document.querySelectorAll('#fullInput input, #fullInput select');
     
                 fields.forEach(input => {
-                    if (!input.value) {
-                        missingFields.push(input.getAttribute('name'));
-                        input.classList.add('is-invalid');  // Add error class
+                    if ((input.type === 'radio' || input.type === 'checkbox')) {
+                        // For radio buttons and checkboxes, check if at least one is selected
+                        const name = input.name;
+                        const checked = document.querySelector(`input[name="${name}"]:checked`);
+                        if (!checked) {
+                            if (!missingFields.includes(name)) {
+                                missingFields.push(name);
+                            }
+                            input.classList.add('is-invalid');
+                        } else {
+                            input.classList.remove('is-invalid');
+                        }
                     } else {
-                        input.classList.remove('is-invalid');  // Remove error class
+                        if (!input.value) {
+                            missingFields.push(input.getAttribute('name'));
+                            input.classList.add('is-invalid');  // Add error class
+                        } else {
+                            input.classList.remove('is-invalid');  // Remove error class
+                        }
                     }
                 });
     
@@ -954,10 +930,6 @@
                     return;
                 }
     
-                // Clear any existing 'mode' input in the form
-                const existingModeInputs = document.querySelectorAll("input[name='mode']");
-                existingModeInputs.forEach(input => input.remove());
-    
                 // Create and append 'mode' to formData directly
                 const formData = new FormData();
                 formData.append('mode', isMinimalMode ? 'minimal' : 'full');  // Set mode here
@@ -965,11 +937,23 @@
                 // Collect inputs only from the visible mode
                 if (isMinimalMode) {
                     document.querySelectorAll('#minimalInput input, #minimalInput select').forEach(input => {
-                        if (input.value) formData.append(input.name, input.value);  // Only add non-empty inputs
+                        if ((input.type === 'radio' || input.type === 'checkbox')) {
+                            if (input.checked) {
+                                formData.append(input.name, input.value);
+                            }
+                        } else {
+                            if (input.value) formData.append(input.name, input.value);
+                        }
                     });
                 } else {
                     document.querySelectorAll('#fullInput input, #fullInput select').forEach(input => {
-                        if (input.value) formData.append(input.name, input.value);  // Only add non-empty inputs
+                        if ((input.type === 'radio' || input.type === 'checkbox')) {
+                            if (input.checked) {
+                                formData.append(input.name, input.value);
+                            }
+                        } else {
+                            if (input.value) formData.append(input.name, input.value);
+                        }
                     });
                 }
     
@@ -991,7 +975,6 @@
                 });
             });
     
-    
             // Function to display the results
             function displayResults(response) {
                 if (response.success) {
@@ -1001,7 +984,7 @@
                     const bodyImage = document.getElementById('bodyImage');
                     const noImagesMessage = document.getElementById('noImagesMessage');
     
-                    if (response.species) {
+                    if (response.species && response.species !== 'Unknown') {
                         headImage.src = `/static/picture/output/Head/${response.species}_HEAD.png`;
                         bodyImage.src = `/static/picture/output/Body/${response.species}.png`;
                         headImage.style.display = 'inline';
@@ -1030,6 +1013,8 @@
                 inputSection.style.display = 'none';
             }
         });
+    </script>
+    
     </script>
     
     

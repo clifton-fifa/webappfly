@@ -169,15 +169,15 @@ def classify_fly(body_color, gena_color, a12, b23, e67, g910):
     body_color = body_color.lower().replace(" ", "")
     gena_color = gena_color.lower().replace(" ", "")
 
-    if body_color == 'cupreous':  # Body color เป็น Cupreous
+    if body_color == 'cupreous':
         return 'L. cuprina (LC)'
-    elif body_color == 'grey':  # Body color เป็น Grey
+    elif body_color == 'grey':
         if b23 > 738.44:
             return 'P. dux (PD)'
         else:
             return 'M. domestica (MD)'
-    elif body_color in ['metallicgreen', 'metallicblue']:  # Body color เป็น Metallic green หรือ Metallic blue
-        if gena_color == 'white':  # Gena color เป็น White
+    elif body_color in ['metallicgreen', 'metallicblue']:
+        if gena_color == 'white':
             if e67 > 1386.86:
                 if a12 > 1409.28:
                     return 'C. rufifacies (CR)'
@@ -191,11 +191,9 @@ def classify_fly(body_color, gena_color, a12, b23, e67, g910):
                         return 'C. rufifacies (CR)'
                     else:
                         return 'C. nigripes (CN)'
-        elif gena_color == 'orange':  # Gena color เป็น Orange
+        elif gena_color == 'orange':
             return 'C. megacephala (CM)'
     return 'Unknown'
-
-
 
 # ฟังก์ชันการจำแนกชนิดแมลง (โหมด full)
 def classify(b23, c34, d45, e67, f710, g910, h915, l1317, r512, s1114, u78):
@@ -273,21 +271,30 @@ def predict_species_family():
     try:
         logging.debug(f"Received form data: {request.form}")
 
-        mode = request.form.get('mode')  # ตรวจสอบโหมดที่เลือก ('minimal' หรือ 'full')
+        mode = request.form.get('mode')
+        logging.debug(f"Selected mode: {mode}")
+
         measurements = {}
 
         if mode == 'minimal':
             # รับข้อมูลจากฟิลด์โหมด minimal
-            measurements['a12'] = float(request.form.get('minimal_a12', 0))
-            measurements['b23'] = float(request.form.get('minimal_b23', 0))
-            measurements['c34'] = float(request.form.get('minimal_c34', 0))
-            measurements['d45'] = float(request.form.get('minimal_d45', 0))
-            measurements['e67'] = float(request.form.get('minimal_e67', 0))
-            measurements['g910'] = float(request.form.get('minimal_g910', 0))
+            measurements['a12'] = float(request.form.get('minimal_a12', 0) or 0)
+            measurements['b23'] = float(request.form.get('minimal_b23', 0) or 0)
+            measurements['c34'] = float(request.form.get('minimal_c34', 0) or 0)
+            measurements['d45'] = float(request.form.get('minimal_d45', 0) or 0)
+            measurements['e67'] = float(request.form.get('minimal_e67', 0) or 0)
+            measurements['g910'] = float(request.form.get('minimal_g910', 0) or 0)
             measurements['gena_color'] = request.form.get('edit_minimal_genaColor', '').strip()
             measurements['body_color'] = request.form.get('edit_minimal_bodyColor', '').strip()
 
             logging.debug(f"Minimal mode measurements before rescale: {measurements}")
+
+            # ตรวจสอบว่าผู้ใช้เลือกสีหรือไม่
+            if not measurements['gena_color']:
+                return jsonify({'success': False, 'error_message': 'Please select Gena Color.'})
+
+            if not measurements['body_color']:
+                return jsonify({'success': False, 'error_message': 'Please select Body Color.'})
 
             # Rescale ข้อมูล
             measurements = rescale_abcd(measurements)
@@ -295,36 +302,62 @@ def predict_species_family():
             logging.debug(f"Minimal mode measurements after rescale: {measurements}")
 
             # ใช้ฟังก์ชัน classify_fly สำหรับการทำนาย
-            species = classify_fly(measurements['body_color'], measurements['gena_color'], 
-                                   measurements['a12'], measurements['b23'], 
-                                   measurements['e67'], measurements['g910'])
-            species_probability = 1.0  # กำหนดค่าเป็น 1.0 เพราะไม่มีการคำนวณความน่าจะเป็นจากโมเดล
+            species = classify_fly(
+                measurements['body_color'],
+                measurements['gena_color'],
+                measurements['a12'],
+                measurements['b23'],
+                measurements['e67'],
+                measurements['g910']
+            )
+            species_probability = 1.0
 
         elif mode == 'full':
-            # รับข้อมูลจากฟิลด์โหมด full เฉพาะค่าที่ต้องใช้
-            measurements['b23'] = float(request.form.get('full_b23', 0))
-            measurements['c34'] = float(request.form.get('full_c34', 0))
-            measurements['d45'] = float(request.form.get('full_d45', 0))
-            measurements['e67'] = float(request.form.get('full_e67', 0))
-            measurements['f710'] = float(request.form.get('full_f710', 0))
-            measurements['g910'] = float(request.form.get('full_g910', 0))
-            measurements['h915'] = float(request.form.get('full_h915', 0))
-            measurements['l1317'] = float(request.form.get('full_l1317', 0))
-            measurements['r512'] = float(request.form.get('full_r512', 0))
-            measurements['s1114'] = float(request.form.get('full_s1114', 0))
-            measurements['u78'] = float(request.form.get('full_u78', 0))
+            # รับข้อมูลจากฟิลด์โหมด full
+            measurements['a12'] = float(request.form.get('full_a12', 0) or 0)
+            measurements['b23'] = float(request.form.get('full_b23', 0) or 0)
+            measurements['c34'] = float(request.form.get('full_c34', 0) or 0)
+            measurements['d45'] = float(request.form.get('full_d45', 0) or 0)
+            measurements['e67'] = float(request.form.get('full_e67', 0) or 0)
+            measurements['f710'] = float(request.form.get('full_f710', 0) or 0)
+            measurements['g910'] = float(request.form.get('full_g910', 0) or 0)
+            measurements['h915'] = float(request.form.get('full_h915', 0) or 0)
+            measurements['l1317'] = float(request.form.get('full_l1317', 0) or 0)
+            measurements['r512'] = float(request.form.get('full_r512', 0) or 0)
+            measurements['s1114'] = float(request.form.get('full_s1114', 0) or 0)
+            measurements['u78'] = float(request.form.get('full_u78', 0) or 0)
 
-            logging.debug(f"Full mode measurements: {measurements}")
+            logging.debug(f"Full mode measurements before rescale: {measurements}")
+
+            # ตรวจสอบว่าการวัดเป็นตัวเลขหรือไม่
+            required_keys = ['a12', 'b23', 'c34', 'd45']
+            for key in required_keys:
+                if not isinstance(measurements[key], (int, float)):
+                    raise ValueError(f"Invalid value for {key}: {measurements[key]}")
 
             # Rescale ข้อมูล
             measurements = rescale_abcd(measurements)
 
+            logging.debug(f"Full mode measurements after rescale: {measurements}")
+
             # ใช้ฟังก์ชัน classify สำหรับการทำนาย
-            species = classify(measurements['b23'], measurements['c34'], measurements['d45'], 
-                               measurements['e67'], measurements['f710'], measurements['g910'], 
-                               measurements['h915'], measurements['l1317'], measurements['r512'], 
-                               measurements['s1114'], measurements['u78'])
-            species_probability = 1.0  # กำหนดค่าเป็น 1.0 เพราะไม่มีการคำนวณความน่าจะเป็นจากโมเดล
+            species = classify(
+                measurements['b23'],
+                measurements['c34'],
+                measurements['d45'],
+                measurements['e67'],
+                measurements['f710'],
+                measurements['g910'],
+                measurements['h915'],
+                measurements['l1317'],
+                measurements['r512'],
+                measurements['s1114'],
+                measurements['u78']
+            )
+            species_probability = 1.0
+
+        else:
+            raise ValueError(f"Invalid mode: {mode}")
 
         logging.debug(f"Prediction result: Species={species}")
         logging.debug(f"Probability: Species={species_probability}")
@@ -342,7 +375,6 @@ def predict_species_family():
         error_message = f"An error occurred: {str(e)}"
         logging.error(error_message)
         return jsonify({'success': False, 'error_message': error_message})
-
 
 # รัน Flask app
 if __name__ == "__main__":
