@@ -216,36 +216,47 @@
         background-color: #e6e6e6d7; /* สีพื้นหลังเบา */
         }
         .poster-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px; /* Add some space below the poster */
-    }
+        position: relative;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px; /* Add some space below the poster */
+        }
 
-    #startPredictionBtn {
-        position: absolute;
-        bottom: 35px; /* Adjust this value to move the button vertically */
-        left: 70%; /* Move the button horizontally to the right */
-        transform: translateX(-50%);
-        padding: 10px 20px;
-        font-size: 20px;
-        z-index: 10; /* Ensure the button is on top of the image */
-    }
-
-    /* Media query for responsiveness */
-    @media (max-width: 1000px) {
         #startPredictionBtn {
-            bottom: 3%; /* Adjust for smaller screens */
-            left: 65%; /* Adjust the left position for smaller screens */
+            position: absolute;
+            bottom: 35px; /* Adjust this value to move the button vertically */
+            left: 70%; /* Move the button horizontally to the right */
             transform: translateX(-50%);
-            font-size: 18px;
-            padding: 8px 16px;
+            padding: 10px 20px;
+            font-size: 20px;
+            z-index: 10; /* Ensure the button is on top of the image */
+        }
+
+        /* Media query for responsiveness */
+        @media (max-width: 1000px) {
+            #startPredictionBtn {
+                bottom: 3%; /* Adjust for smaller screens */
+                left: 65%; /* Adjust the left position for smaller screens */
+                transform: translateX(-50%);
+                font-size: 18px;
+                padding: 8px 16px;
+            }
+        }
+        .image-container img {
+        width: 250px;
+        height: 150px;
+        }
+        @media (max-width: 768px) {
+        .image-container {
+            flex-direction: column;
+        }
+
+        .image-container img {
+            max-width: 80%;  /* ลดขนาดภาพลงเมื่ออยู่บนหน้าจอขนาดเล็ก */
+            margin-bottom: 20px;  /* เพิ่มพื้นที่ระหว่างภาพ */
         }
     }
-    .rounded-img {
-        border-radius: 15px; /* ขอบมน 15px */
-        margin: 10px; /* ระยะห่างระหว่างภาพ */
-    }
+
 
     </style>
 </head>
@@ -292,22 +303,25 @@
         <section class="section-overlay2">
         <section id="input" class="section section-with-padding">
             <div class="container">
-                <div class="input-wrapper">  
+                <div class="input-wrapper">        
 
-                    <div style="text-align: center;">
-                        <img src="{{ url_for('static', filename='picture/Picture5.png') }}" alt=" " class="rounded-img" width="400" height="300">
-                        <img src="{{ url_for('static', filename='picture/Picture6.png') }}" alt=" " class="rounded-img" width="400" height="300">
+                    <div class="inputheader" style="text-align:center; color: #000000; position: relative; top: 40px !important;">
+                        <h2><b>Fly Prediction Tool</b></h2>
+                        <p>Input wing measurements to predict fly species.</p>
+                    </div>
+                    <div class="image-container" style="display: flex; justify-content: space-between; align-items: center; position: relative; top: -50px; flex-wrap: wrap;">
+                        <img src="{{ url_for('static', filename='picture/Picture6.png') }}" alt=" " class="rounded-img img-fluid" style="max-width: 45%; height: auto;">
+                        <img src="{{ url_for('static', filename='picture/Picture5.png') }}" alt=" " class="rounded-img img-fluid" style="max-width: 45%; height: auto;">
                     </div>
                     
-                        
-                <h2>Input Data</h2>
-                <div class="mb-3">
+                
+                <div class="text-center mb-3"  style="position: relative; top: -100px;">
                     <button class="btn btn-primary" id="minimalModeBtn">Input With Colors</button>
                     <button class="btn btn-secondary" id="fullModeBtn">Input Without Colors</button>
                 </div>
             
                 
-                <div id="minimalInput">
+                <div id="minimalInput"  style="position: relative; top: -90px;">
                     <div class="row">
                         <div class="col-md-2 mb-3">
                             <label for="minimal_a12" class="form-label">a(1-2):</label>
@@ -374,7 +388,7 @@
                     </div>                    
                 </div>
                     <!-- Full mode inputs -->
-                <div id="fullInput" style="display:none;">
+                <div id="fullInput" style="display:none; position: relative; top: -90px;"">
 
                     <div class="row">
                         <div class="col-md-2">
@@ -397,12 +411,13 @@
                             <label for="full_e67" class="form-label">e(6-7):</label>
                             <input type="number" step="any" id="full_e67" name="full_e67" class="form-control" required/>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-2">
                             <label for="full_f710" class="form-label">f(7-10):</label>
                             <input type="number" step="any" id="full_f710" name="full_f710" class="form-control"/>
                         </div>
+                    </div>
+                    <div class="row">
+
                         <div class="col-md-2">
                             <label for="full_g910" class="form-label">g(9-10):</label>
                             <input type="number" step="any" id="full_g910" name="full_g910" class="form-control"/>
@@ -419,16 +434,17 @@
                             <label for="full_j1415" class="form-label">j(14-15):</label>
                             <input type="number" step="any" id="full_j1415" name="full_j1415" class="form-control"/>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-2">
                             <label for="full_k1314" class="form-label">k(13-14):</label>
                             <input type="number" step="any" id="full_k1314" name="full_k1314" class="form-control"/>
-                        </div>
+                        </div>                        
                         <div class="col-md-2">
                             <label for="full_l1317" class="form-label">l(13-17):</label>
                             <input type="number" step="any" id="full_l1317" name="full_l1317" class="form-control"/>
                         </div>
+                    </div>
+                    <div class="row">
+
                         <div class="col-md-2">
                             <label for="full_m1718" class="form-label">m(17-18):</label>
                             <input type="number" step="any" id="full_m1718" name="full_m1718" class="form-control"/>
@@ -441,9 +457,6 @@
                             <label for="full_o213" class="form-label">o(2-13):</label>
                             <input type="number" step="any" id="full_o213" name="full_o213" class="form-control"/>
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-2">
                             <label for="full_p312" class="form-label">p(3-12):</label>
                             <input type="number" step="any" id="full_p312" name="full_p312" class="form-control"/>
@@ -456,6 +469,9 @@
                             <label for="full_r512" class="form-label">r(5-12):</label>
                             <input type="number" step="any" id="full_r512" name="full_r512" class="form-control"/>
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-2">
                             <label for="full_s1114" class="form-label">s(11-14):</label>
                             <input type="number" step="any" id="full_s1114" name="full_s1114" class="form-control"/>
@@ -464,9 +480,6 @@
                             <label for="full_t811" class="form-label">t(8-11):</label>
                             <input type="number" step="any" id="full_t811" name="full_t811" class="form-control"/>
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-2">
                             <label for="full_u78" class="form-label">u(7-8):</label>
                             <input type="number" step="any" id="full_u78" name="full_u78" class="form-control"/>
@@ -480,6 +493,7 @@
                             <input type="number" step="any" id="full_w1112" name="full_w1112" class="form-control"/>
                         </div>
                     </div>
+
                 </div> 
                 <!-- <div class="row">
                     <div class="col-md-2 mb-1">
@@ -586,11 +600,12 @@
                 </div> -->
 
 
-            </div>  
-                <div class="text-center mt-4">
+         
+                <div class="text-center mt-4"  style="position: relative; top: -80px;">
                     <button class="btn btn-success me-2" id="predictBtn">Get Prediction</button>
                     <button class="btn btn-danger" id="clearBtn">Clear</button>
                 </div>
+                </div> 
                 </div>
             </div>
         </section>
@@ -737,45 +752,40 @@
 
         <section class="section-overlay4">
         <section id="about" class="section">
-            <div class="container">
-                <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
-                    <h2 style="font-size: 2.5rem; font-weight: bold; text-align: center; margin-bottom: 2rem; color: #333;">About Us</h2>
-                    <div style="display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
-                      <div style="flex: 1; min-width: 300px; background-color: rgba(255, 255, 255, 0.9); border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
-                        <div style="background-color: #f0f0f0; padding: 1rem;">
-                          <h3 style="font-size: 1.5rem; font-weight: 600; color: #333;">Website Creators</h3>
+            <div style="display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw;">
+                <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 1200px; width: 100%;">
+                    <div style="background-color: #ffffff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; flex: 1; min-width: 300px;">
+                        <div style="background-color: #5e6265; color: white; padding: 20px; text-align: center;">
+                            <h2 style="margin: 0; font-weight: 600;">Student Information</h2>
                         </div>
-                        <div style="padding: 1rem;">
-                          <ul style="list-style-type: disc; padding-left: 1.5rem; color: #333;">
-                            <li>Thanapon Chueboonmee</li>
-                            <li>Teemaporn Tippayanate</li>
-                            <li>Sasipa Aita</li>
-                          </ul>
-                          <br style="margin-top: 1rem; color: #555;">
-                            Data Science And Analytics, Department of Mathematics
-                            <br>Faculty of Science, Naresuan University</br>
-                          </p>
-                          <a href="#" style="display: inline-block; margin-top: 1rem; padding: 0.5rem 1rem; background-color: #3b82f6; color: white; text-decoration: none; border-radius: 0.25rem;">Learn More</a>
+                        <div style="padding: 30px;">
+                            <ul style="list-style-type: none; padding: 0; margin: 0 0 20px 0;">
+                                <li style="padding: 10px 0; border-bottom: 1px solid #eee;">Thanapon Chueboonmee</li>
+                                <li style="padding: 10px 0; border-bottom: 1px solid #eee;">Teemaporn Tippayanate</li>
+                                <li style="padding: 10px 0;">Sasipa Aita</li>
+                            </ul>
+                            <p style="font-weight: 600; color: #2c3e50; margin-bottom: 10px;">Adviser  Dr. Watcharapong Anakkamatee</p>
+                            <div style="background-color: #f8f9fa; border-radius: 8px; padding: 15px; font-size: 0.9em; color: #5a6268;">
+                                Data Science And Analytics, Department of Mathematics<br>
+                                Faculty of Science, Naresuan University
+                            </div>
                         </div>
-                      </div>
-                      <div style="flex: 1; min-width: 300px; background-color: rgba(255, 255, 255, 0.9); border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
-                        <div style="background-color: #f0f0f0; padding: 1rem;">
-                          <h3 style="font-size: 1.5rem; font-weight: 600; color: #333;">Research Reference</h3>
-                        </div>
-                        <div style="padding: 1rem;">
-                          <p style="font-style: italic; color: #333;">
-                            Identification of medically and forensically relevant flies using a decision tree learning method
-                          </p>
-                          <p style="margin-top: 0.5rem; color: #555;">
-                            Tanajitaree, C., Sanit, S., Sukontason, K.L., Sukontason, K., Somboon, P., Anakkamatee, W., Amendt, J., Limsopatham, K.
-                          </p>
-                          <a href="https://w1.med.cmu.ac.th/parasite/wp-content/uploads/2023/06/tb-40-1-019-Tanajitaree-C.pdf" style="display: inline-block; margin-top: 1rem; padding: 0.5rem 1rem; background-color: #3b82f6; color: white; text-decoration: none; border-radius: 0.25rem;">View Publication</a>
-                        </div>
-                      </div>
                     </div>
-                
-                  </div>
-                  </div>
+                    <div style="background-color: #ffffff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; flex: 1; min-width: 300px;">
+                        <div style="background-color: #5e6265; color: white; padding: 20px; text-align: center;">
+                            <h2 style="margin: 0; font-weight: 600;">Research Reference</h2>
+                        </div>
+                        <div style="padding: 30px;">
+                            <p style="font-weight: 600; color: #2c3e50; margin-bottom: 10px;">Title:</p>
+                            <p style="font-style: italic;  margin-bottom: 20px;">Identification of medically and forensically relevant flies using a decision tree learning method</p>
+                            <p style="font-weight: 600; color: #2c3e50; margin-bottom: 10px;">Authors:</p>
+                            <p style="margin-bottom: 20px;">Tanajitaree, C., Sanit, S., Sukontason, K.L., Sukontason, K., Somboon, P., Anakkamatee, W., Amendt, J., Limsopatham, K.</p>
+                            <a href="https://w1.med.cmu.ac.th/parasite/wp-content/uploads/2023/06/tb-40-1-019-Tanajitaree-C.pdf" style="display: inline-block; padding: 10px 20px; background-color: #808080; color: white; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">View Paper</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </section>
         </section>
     </div>
