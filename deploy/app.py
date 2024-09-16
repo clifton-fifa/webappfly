@@ -212,7 +212,7 @@ def classify(b23, c34, d45, e67, f710, g910, h915, l1317, r512, s1114, u78):
                     return 'C. megacephala (CM)'
             else:
                 if c34 > 1645.70:
-                    if d45 > 1571.80:
+                    if a12 > 1571.80:
                         return 'C. rufifacies (CR)'
                     else:
                         if h915 > 1990.58:
